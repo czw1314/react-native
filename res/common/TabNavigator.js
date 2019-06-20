@@ -1,99 +1,148 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Image,Button} from 'react-native';
-import TabNavigator from 'react-native-tab-navigator';
-import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
-class HomeScreen extends React.Component {
-    render() {
+import Overview from './Overview';
+// import NavigationBar from './NavigationBar'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { createAppContainer,createBottomTabNavigator,createStackNavigator} from 'react-navigation';
+
+class Monitor extends React.Component{
+    render(){
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>HomE Screen</Text>
-                <Button
-                    title="Go to Details"
-                    onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Details' })
-                            ],
-                        }))
-                    }}
-                />
+            <View>
+                <Text>Home</Text>
             </View>
-        );
+        )
     }
 }
-
-class DetailsScreen extends React.Component {
-    render() {
+class EnergyEfficiency extends React.Component{
+    render(){
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Details Screen</Text>
-                <Button
-                    title="Go to Details"
-                    onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Home' })
-                            ],
-                        }))
-                    }}
-                />
+            <View>
+                <Text>Home</Text>
             </View>
-        );
+        )
     }
 }
-
-const AppNavigator = createStackNavigator({
-    Home: {
-        screen: HomeScreen,
+class My extends React.Component{
+    static navigationOptions = {
+        title: 'Details',
+    };
+    render(){
+        return (
+            <View>
+                <Text>Home</Text>
+            </View>
+        )
+    }
+}
+//顶部标题
+const RootStack = createStackNavigator(
+    {
+        Overview: {
+            screen: Overview,
+            navigationOptions:{
+                headerRight: (
+                    <Button
+                        title="+1"
+                        color="red"
+                    />
+                ),
+            }
+        },
+        // Monitor: {
+        //     screen: Monitor
+        // },
+        // EnergyEfficiency: {
+        //     screen: EnergyEfficiency
+        // },
+        // My: {
+        //     screen: My
+        // },
     },
-    Details: {
-        screen: DetailsScreen,
-    },
-}, {
-    initialRouteName: 'Home',
-});
-
-const AppContainer=createAppContainer(AppNavigator);
-//底部导航栏
-type Props = {};
-export default class TabNav extends Component<Props> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedTab:'home',
+    {
+        initialRouteName: 'Overview',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    }
+);
+//底部导航
+const BottomNavigator = createBottomTabNavigator(
+    {
+        Overview: {
+            screen: RootStack,
+            navigationOptions: {
+                title: "总览",
+                tabBarIcon:({ focused, horizontal, tintColor })=>{
+                    if(focused){
+                        return <Image source={require('../images/nav_1_on.png')} style={{height:22,width:22}}/>
+                    }
+                    else{
+                        return <Image source={require('../images/nav_1_off.png')} style={{height:22,width:22}}/>
+                    }
+                }
+            }
+        },
+        Monitor: {
+            screen: Monitor,
+            navigationOptions: {
+                title: "监控",
+                tabBarIcon:({ focused, horizontal, tintColor })=>{
+                    if(focused){
+                        return <Image source={require('../images/nav_2_on.png')} style={{height:22,width:22}}/>
+                    }
+                    else{
+                        return <Image source={require('../images/nav_2_off.png')} style={{height:22,width:22}}/>
+                    }
+                }
+            }
+        },
+        EnergyEfficiency: {
+            screen: EnergyEfficiency,
+            navigationOptions: {
+                title: "能效",
+                tabBarIcon:({ focused, horizontal, tintColor })=>{
+                    if(focused){
+                        return <Image source={require('../images/nav_3_on.png')} style={{height:22,width:22}}/>
+                    }
+                    else{
+                        return <Image source={require('../images/nav_3_off.png')} style={{height:22,width:22}}/>
+                    }
+                }
+            }
+        },
+        My: {
+            screen: My,
+            navigationOptions: {
+                title: "我的",
+                tabBarIcon:({focused,horizontal,tintColor})=>{
+                    if(focused){
+                        return <Image source={require('../images/nav_4_on.png')} style={{height:22,width:22}}/>
+                    }
+                    else{
+                        return <Image source={require('../images/nav_4_off.png')} style={{height:22,width:22}}/>
+                    }
+                }
+            }
         }
-        };
-        render() {
-        return (
-            <View style={styles.container}>
-
-                    <TabNavigator>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'home'}
-                        title="Home"
-                        renderIcon={() => <Image style={styles.img} source={require('../images/nav_1_off.png')}/>}
-                        renderSelectedIcon={() => <Image style={styles.img} source={require('../images/nav_1_on.png')}/>}
-                        // badgeText="1"信息提示
-                        onPress={() => this.setState({selectedTab: 'home'})}>
-                        <View style={styles.home}>
-                            <AppContainer></AppContainer>
-                        </View>
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'profile'}
-                        title="Profile"
-                        renderIcon={() => <Image style={styles.img} source={require('../images/nav_2_off.png')}/>}
-                        renderSelectedIcon={() => <Image style={styles.img} source={require('../images/nav_2_off.png')}/>}
-                        onPress={() => this.setState({selectedTab: 'profile'})}>
-                        <View style={styles.profile}></View>
-                    </TabNavigator.Item>
-                </TabNavigator>
-            </View>
-        );
+    },
+    {
+        tabBarOptions:{
+            activeTintColor:'rgb(66,176,252)'
+        },
+        navigationOptions:{
+            headerTitle:'s'
+        }
     }
-};
+)
+
+export default createAppContainer(BottomNavigator)
 
 //导航栏样式
 const styles = StyleSheet.create({
