@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View,Image,Button} from 'react-native';
 import Overview from './Overview';
 // import NavigationBar from './NavigationBar'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import {connect} from 'react-redux'
 import { createAppContainer,createBottomTabNavigator,createStackNavigator} from 'react-navigation';
 
 class Monitor extends React.Component{
@@ -142,7 +143,9 @@ const BottomNavigator = createBottomTabNavigator(
     }
 )
 
-export default createAppContainer(BottomNavigator)
+export default connect(state => (
+    {company: state.company}), {newCompany})(createAppContainer(BottomNavigator));
+
 
 //导航栏样式
 const styles = StyleSheet.create({
