@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View,Image,Button} from 'react-native';
 import Overview from './Overview';
 // import NavigationBar from './NavigationBar'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import {newCompany} from '../../js/redux/action'
 import {connect} from 'react-redux'
 import { createAppContainer,createBottomTabNavigator,createStackNavigator} from 'react-navigation';
 

@@ -10,7 +10,8 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Button, ThemeProvider} from 'react-native-elements';
 import TabNav from './res/common/TabNavigator';
-import {Provider} from 'react-redux '
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import store from './js/redux/store'
 
 
@@ -21,13 +22,12 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type
-Props = {};
+type Props = {};
 export default class App extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <Provider>
+                <Provider store={store}>
                     <TabNav/>
                 </Provider>
             </View>
