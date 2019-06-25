@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Image,Button} from 'react-native';
+import axios from 'axios';
 import Overview from './Overview';
 // import NavigationBar from './NavigationBar'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+// import Ionicons from 'react-native-vector-icons/Ionicons'
+import {newCompany} from '../../js/redux/action'
+import Login from './login'
 import {connect} from 'react-redux'
 import { createAppContainer,createBottomTabNavigator,createStackNavigator} from 'react-navigation';
 
@@ -17,6 +20,7 @@ class Monitor extends React.Component{
 }
 class EnergyEfficiency extends React.Component{
     render(){
+        console.log(this.props)
         return (
             <View>
                 <Text>Home</Text>
@@ -36,20 +40,18 @@ class My extends React.Component{
         )
     }
 }
+
 //顶部标题
 const RootStack = createStackNavigator(
     {
-        Overview: {
-            screen: Overview,
+        Overview: Overview,
+        Login:{
+            screen:Login,
             navigationOptions:{
-                headerRight: (
-                    <Button
-                        title="+1"
-                        color="red"
-                    />
-                ),
+                header:null
             }
-        },
+        }
+
         // Monitor: {
         //     screen: Monitor
         // },
