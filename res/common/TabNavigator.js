@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Image,Button} from 'react-native';
-import axios from 'axios';
 import Overview from './Overview';
 // import NavigationBar from './NavigationBar'
 // import Ionicons from 'react-native-vector-icons/Ionicons'
