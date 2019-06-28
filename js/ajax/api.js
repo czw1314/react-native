@@ -1,8 +1,13 @@
 import axios from 'react-native-axios';
+import AsyncStorage from "@react-native-community/async-storage";
 
 let base = 'https://powercombo.cn/powercombo-rest';
 // let base = 'http://120.78.228.145/powercombo-rest';
-
+const accessKey=''
+AsyncStorage.getItem('password').then((result)=>{
+    accessKey=result
+})
+console.log(accessKey)
 const qs = require('qs');
 
 export const requestLogin = params => {

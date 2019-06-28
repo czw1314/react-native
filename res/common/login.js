@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {View,StyleSheet,Modal,TouchableHighlight} from 'react-native';
 import md5 from 'js-md5';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input,Image,Button,Overlay,Text } from 'react-native-elements';
-import AsyncStorage from '@react-native-community/async-storage';
+import DeviceStorage from '../../js/DeviceStorage/DeviceStorage'
 import {requestLogin} from "../../js/ajax/api";
 
 class Login extends React.Component{
@@ -21,6 +22,13 @@ class Login extends React.Component{
             isVisible:false,
             errorLogin:''
         }
+        DeviceStorage.get('userName').then((result)=>{
+
+            this.setState({'userName':result})
+        })
+        DeviceStorage.get('password').then((result)=>{
+            this.setState({'password':result})
+        })
     }
     //获取焦点，激活输入框
     focus(input){
@@ -54,26 +62,6 @@ class Login extends React.Component{
             }
         }
     }
-    //储存数据
-    storeData = async (key,value) => {
-        try {
-            await AsyncStorage.setItem(key, value);
-        } catch (error) {
-            // Error saving data
-        }
-    }
-    //读取数据
-    retrieveData = async (key) => {
-        try {
-            const value = await AsyncStorage.getItem(key);
-            if (value !== null) {
-                // We have data!!
-                console.log(value);
-            }
-        } catch (error) {
-            // Error retrieving data
-        }
-    }
     //密码加密
     enCode(e) {
         let b = md5.hex(e);
@@ -85,39 +73,23 @@ class Login extends React.Component{
     }
     //登陆
     login(){
+        DeviceStorage.save('userName',this.state.userName)
+        DeviceStorage.save('password',this.state.password)
         if(this.state.userName===''||this.state.password===''){
             this.setState({isVisible:true,errorLogin:'请先输入账号密码'})
         }
         else {
+            DeviceStorage.update('userName',this.state.userName)
+            DeviceStorage.update('password',this.state.password)
             let loginParams = {phone: this.state.userName, password: this.enCode(this.state.password)};
             requestLogin(loginParams).then(res => {
-                    console.log(res)
                     if (res.code === 1) {
-                        console.log('s')
+                        DeviceStorage.save('accessKey',res.data.accessKey)
+                        DeviceStorage.save('userID',res.data.userID)
                     }
                     else {
                         this.setState({isVisible: true, errorLogin: res.msg})
                     }
-//                     this.visible = false;
-//                     this.$store.state.phone = res.data.phone;
-//                     this.$store.state.userID = res.data.userID;
-//                     this.$store.state.appName = res.data.appName;
-// //              this.$store.state.monitorID= res.data.phone;
-//                     localStorage.setItem("appName", res.data.appName);
-//                     localStorage.setItem("userID", res.data.userID);
-//                     localStorage.setItem("phone", res.data.phone);
-//                     localStorage.setItem("accessKey", res.data.accessKey);
-// //              localStorage.setItem('user', res.data.userID);
-// //              localStorage.setItem('flag', res.data.flag);
-//
-//                     setTimeout(function () {
-//                         _this.$router.push({path: '/home'});
-//                     }, 500)
-//                 }
-//                 else {
-//                     this.$store.state.msg = res.msg
-//                     this.$store.state.DialogHiden = true
-//                 }
                 }
             )
         }
@@ -133,6 +105,7 @@ class Login extends React.Component{
         }
         else if(input==='password'){
             this.setState({borderColor1:'#86939e',source1:require('../images/password.png')})
+            this.setState({password:value})
             if(this.state.password){
                 this.setState({errorMsg1:''})
             }
@@ -148,6 +121,7 @@ class Login extends React.Component{
                 <Input
                     ref={'userName'}
                     placeholder='请输入手机号'
+                    defaultValue={this.state.userName}
                     inputContainerStyle={{borderColor:this.state.borderColor}}
                     keyboardType={'number-pad'}
                     style={{borderBottomColor:'#fff'}}
@@ -163,6 +137,7 @@ class Login extends React.Component{
                     placeholder='密码'
                     inputContainerStyle={{borderColor:this.state.borderColor1}}
                     onFocus={()=>this.focus('password')}
+                    defaultValue={this.state.password}
                     onBlur={()=>this.blur('password')}
                     onChangeText={(value)=>this.change('password',value)}
                     // inputStyle={{borderColor:'#fff'}}
