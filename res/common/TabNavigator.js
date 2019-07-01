@@ -41,44 +41,44 @@ class My extends React.Component{
 }
 
 //顶部标题
-const RootStack = createStackNavigator(
-    {
-        Overview: Overview,
-        Login:{
-            screen:Login,
-            navigationOptions:{
-                header:null
-            }
-        }
-
-        // Monitor: {
-        //     screen: Monitor
-        // },
-        // EnergyEfficiency: {
-        //     screen: EnergyEfficiency
-        // },
-        // My: {
-        //     screen: My
-        // },
-    },
-    {
-        initialRouteName: 'Overview',
-        defaultNavigationOptions: {
-            headerStyle: {
-                backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-        },
-    }
-);
+// const RootStack = createStackNavigator(
+//     {
+//         Overview: Overview,
+//         Login:{
+//             screen:Login,
+//             navigationOptions:{
+//                 header:null
+//             }
+//         }
+//
+//         // Monitor: {
+//         //     screen: Monitor
+//         // },
+//         // EnergyEfficiency: {
+//         //     screen: EnergyEfficiency
+//         // },
+//         // My: {
+//         //     screen: My
+//         // },
+//     },
+//     {
+//         initialRouteName: 'Overview',
+//         defaultNavigationOptions: {
+//             headerStyle: {
+//                 backgroundColor: '#f4511e',
+//             },
+//             headerTintColor: '#fff',
+//             headerTitleStyle: {
+//                 fontWeight: 'bold',
+//             },
+//         },
+//     }
+// );
 //底部导航
 const BottomNavigator = createBottomTabNavigator(
     {
         Overview: {
-            screen: RootStack,
+            screen: Overview,
             navigationOptions: {
                 title: "总览",
                 tabBarIcon:({ focused, horizontal, tintColor })=>{
@@ -139,13 +139,58 @@ const BottomNavigator = createBottomTabNavigator(
             activeTintColor:'rgb(66,176,252)'
         },
         navigationOptions:{
-            headerTitle:'s'
+            headerRight: (
+                <Button
+                    onPress={() => navigation.navigate('Login')}
+                    title="+1"
+                    color="red"
+                />
+            ),
         }
     }
 )
+//顶部标题
+const RootStack = createStackNavigator(
+    {
+        BottomNavigator: {
+            screen:BottomNavigator,
+            navigationOptions:{
+                header:null
+            }
+        },
+        Login:{
+            screen:Login,
+            navigationOptions:{
+                header:null
+            }
+        }
+
+        // Monitor: {
+        //     screen: Monitor
+        // },
+        // EnergyEfficiency: {
+        //     screen: EnergyEfficiency
+        // },
+        // My: {
+        //     screen: My
+        // },
+    },
+    {
+        initialRouteName: 'Login',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    }
+);
 
 export default connect(state => (
-    {company: state.company}), {newCompany})(createAppContainer(BottomNavigator));
+    {company: state.company}), {newCompany})(createAppContainer(RootStack));
 
 
 //导航栏样式

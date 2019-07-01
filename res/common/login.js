@@ -10,6 +10,7 @@ import {requestLogin} from "../../js/ajax/api";
 class Login extends React.Component{
     constructor(props){
         super(props)
+        this.timer=''
         this.state={
             borderColor:'#86939e',
             borderColor1:'#86939e',
@@ -86,6 +87,11 @@ class Login extends React.Component{
                     if (res.code === 1) {
                         DeviceStorage.save('accessKey',res.data.accessKey)
                         DeviceStorage.save('userID',res.data.userID)
+                        console.log('s')
+                        this.timer = setTimeout(
+                            () => {this.props.navigation.navigate('Overview') },
+                            500
+                        );
                     }
                     else {
                         this.setState({isVisible: true, errorLogin: res.msg})
@@ -111,7 +117,9 @@ class Login extends React.Component{
             }
         }
     }
-
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
     render(){
         return(
             <View style={styles.container}>
