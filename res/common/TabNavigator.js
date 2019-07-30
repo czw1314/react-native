@@ -5,6 +5,7 @@ import Overview from './Overview';
 // import Ionicons from 'react-native-vector-icons/Ionicons'
 import {newCompany} from '../../js/redux/action'
 import Login from './login'
+import selectCompany from './selectCompany'
 import {connect} from 'react-redux'
 import { createAppContainer,createBottomTabNavigator,createStackNavigator} from 'react-navigation';
 
@@ -19,7 +20,6 @@ class Monitor extends React.Component{
 }
 class EnergyEfficiency extends React.Component{
     render(){
-        console.log(this.props)
         return (
             <View>
                 <Text>Home</Text>
@@ -41,44 +41,39 @@ class My extends React.Component{
 }
 
 //顶部标题
-// const RootStack = createStackNavigator(
-//     {
-//         Overview: Overview,
-//         Login:{
-//             screen:Login,
-//             navigationOptions:{
-//                 header:null
-//             }
-//         }
-//
-//         // Monitor: {
-//         //     screen: Monitor
-//         // },
-//         // EnergyEfficiency: {
-//         //     screen: EnergyEfficiency
-//         // },
-//         // My: {
-//         //     screen: My
-//         // },
-//     },
-//     {
-//         initialRouteName: 'Overview',
-//         defaultNavigationOptions: {
-//             headerStyle: {
-//                 backgroundColor: '#f4511e',
-//             },
-//             headerTintColor: '#fff',
-//             headerTitleStyle: {
-//                 fontWeight: 'bold',
-//             },
-//         },
-//     }
-// );
+const OverviewStack = createStackNavigator(
+    {
+        Overview: Overview,
+        }
+
+        // Monitor: {
+        //     screen: Monitor
+        // },
+        // EnergyEfficiency: {
+        //     screen: EnergyEfficiency
+        // },
+        // My: {
+        //     screen: My
+        // },
+    // },
+    // {
+    //     initialRouteName: 'Overview',
+    //     defaultNavigationOptions: {
+    //         headerStyle: {
+    //             backgroundColor: '#f4511e',
+    //         },
+    //         headerTintColor: '#fff',
+    //         headerTitleStyle: {
+    //             fontWeight: 'bold',
+    //         },
+    //     },
+    // }
+);
 //底部导航
 const BottomNavigator = createBottomTabNavigator(
     {
         Overview: {
-            screen: Overview,
+            screen:OverviewStack,
             navigationOptions: {
                 title: "总览",
                 tabBarIcon:({ focused, horizontal, tintColor })=>{
@@ -138,15 +133,15 @@ const BottomNavigator = createBottomTabNavigator(
         tabBarOptions:{
             activeTintColor:'rgb(66,176,252)'
         },
-        navigationOptions:{
-            headerRight: (
-                <Button
-                    onPress={() => navigation.navigate('Login')}
-                    title="+1"
-                    color="red"
-                />
-            ),
-        }
+        // navigationOptions:{
+        //     headerRight: (
+        //         <Button
+        //             // onPress={() => navigation.navigate('Login')}
+        //             title="+1"
+        //             color="red"
+        //         />
+        //     ),
+        // }
     }
 )
 //顶部标题
@@ -163,6 +158,12 @@ const RootStack = createStackNavigator(
             navigationOptions:{
                 header:null
             }
+        },
+        selectCompany:{
+            screen:selectCompany,
+            // navigationOptions:{
+            //     // header:null
+            // }
         }
 
         // Monitor: {

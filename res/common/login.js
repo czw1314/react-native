@@ -24,7 +24,6 @@ class Login extends React.Component{
             errorLogin:''
         }
         DeviceStorage.get('userName').then((result)=>{
-
             this.setState({'userName':result})
         })
         DeviceStorage.get('password').then((result)=>{
@@ -87,7 +86,6 @@ class Login extends React.Component{
                     if (res.code === 1) {
                         DeviceStorage.save('accessKey',res.data.accessKey)
                         DeviceStorage.save('userID',res.data.userID)
-                        console.log('s')
                         this.timer = setTimeout(
                             () => {this.props.navigation.navigate('Overview') },
                             500
@@ -103,14 +101,14 @@ class Login extends React.Component{
     }
     change(input,value){
         if(input==='userName'){
-            this.setState({borderColor:'rgb(1,160,254)',source:require('../images/phoneActive.png')})
+            // this.setState({borderColor:'rgb(1,160,254)',source:require('../images/phoneActive.png')})
             this.setState({userName:value})
             if(this.state.userName){
                 this.setState({errorMsg:''})
             }
         }
         else if(input==='password'){
-            this.setState({borderColor1:'#86939e',source1:require('../images/password.png')})
+            // this.setState({borderColor:'rgb(1,160,254)',source1:require('../images/passwordActive.png')})
             this.setState({password:value})
             if(this.state.password){
                 this.setState({errorMsg1:''})

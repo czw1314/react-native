@@ -4,4 +4,16 @@ function newCompany(company) {
     company:company
     }
 }
-export {newCompany}
+function newMonitor(monitor) {
+    return {
+        type:'NEW_MONITOR',
+        monitor:monitor
+    }
+}
+function getCompanyList(companyList) {
+    return {
+        type:'COMPANY_LIST',
+        companyList:companyList
+    }
+}
+export {newCompany,getCompanyList,newMonitor}
