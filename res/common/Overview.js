@@ -7,10 +7,8 @@ import {getCompany,getIndex} from "../../js/ajax/api";
 import {connect} from "react-redux";
 import DeviceStorage from "../../js/DeviceStorage/DeviceStorage";
 import {scaleSizeH, scaleSizeW, setSpText} from '../js/screenUntil';
-import Svg,{
-    Circle
-} from 'react-native-svg';
 
+//水水水水
 
 class Overview extends React.Component {
     constructor(props) {
@@ -153,19 +151,19 @@ class Overview extends React.Component {
                 </View>
                 <View>
                     <ImageBackground source={require('../images/Overview.jpg')} style={[styles.bottom,{height:scaleSizeH(422),width:scaleSizeW(750)}]}>
-                        <Svg
-                            height="100"
-                            width="100"
-                        >
-                            <Circle
-                                cx="50"
-                                cy="50"
-                                r="45"
-                                stroke="black"
-                                strokeWidth="2.5"
-                                fill="red"
-                            />
-                        </Svg>
+                        {/*<Svg*/}
+                            {/*height="100"*/}
+                            {/*width="100"*/}
+                        {/*>*/}
+                            {/*<Circle*/}
+                                {/*cx="50"*/}
+                                {/*cy="50"*/}
+                                {/*r="45"*/}
+                                {/*stroke="black"*/}
+                                {/*strokeWidth="2.5"*/}
+                                {/*fill="red"*/}
+                            {/*/>*/}
+                        {/*</Svg>*/}
                     </ImageBackground>
                 </View>
             </View>
