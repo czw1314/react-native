@@ -28,7 +28,6 @@ class Overview extends React.Component {
             headerTitle:'储能选择',
             headerStyle: {
                 backgroundColor: '#42b0fc',
-                alignItems:'center'
             },
             headerTitleStyle: {
                 flex:1,

@@ -7,7 +7,7 @@ function newCompany(company) {
 function newMonitor(monitor) {
     return {
         type:'NEW_MONITOR',
-        monitor:monitor
+        monitorID:monitor
     }
 }
 function getCompanyList(companyList) {
