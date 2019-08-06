@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, Animated, Button,ImageBackground} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, Button,ImageBackground} from 'react-native';
 import { PixelRatio } from 'react-native';
 import {createAppContainer} from "react-navigation";
 import {newCompany,getCompanyList,newMonitor} from "../../js/redux/action";
@@ -7,6 +7,7 @@ import {getCompany,getIndex} from "../../js/ajax/api";
 import {connect} from "react-redux";
 import DeviceStorage from "../../js/DeviceStorage/DeviceStorage";
 import {scaleSizeH, scaleSizeW, setSpText} from '../js/screenUntil';
+import * as Animatable from 'react-native-animatable';
 import Svg,{
     Circle,
     Ellipse,
@@ -36,7 +37,7 @@ class Overview extends React.Component {
         this.state = {
             company: 1,
             userID:'',
-            strokeDashOffset: new Animated.Value(138),
+            // strokeDashOffset: new Animated.Value(0),
             data:{
                 batteryCapa: 150,
                 companyActivePower: 570,
@@ -99,33 +100,17 @@ class Overview extends React.Component {
 
                     }).catch(err=>{console.log(err)});
             })
-        Animated.spring(
-            this.state.strokeDashOffset,
-            {
-                toValue: 200
-            }
-        ).start(()=>   Animated.spring(
-            this.state.strokeDashOffset,
-            {
-                toValue: 0
-            }
-        ).start())
-        // //获取首页数据
-        // DeviceStorage.get('monitorID').then((result)=>{
-        //     let params = {monitorID: result};
-        //     getIndex(params).then((res)=>{
-        //         if(res.code===1){
-        //             this.setState({data:res.data})
-        //         }
-        //         else{
-        //             if(res.code=5000){
-        //             }
-        //         }
-        //
-        //     }).catch(err=>{console.log(err)});
-        // })
+
+
 
     }
+    // runAnimation() {
+    //     this.state.strokeDashOffset.setValue(0);
+    //     Animated.timing(this.state.strokeDashOffset, {
+    //         toValue: 400,
+    //         duration: 500,
+    //     }).start(() => this.runAnimation());
+    // }
     //获取公司
     componentWillMount(){
         DeviceStorage.get('userID').then((result)=>{
@@ -146,7 +131,7 @@ class Overview extends React.Component {
     }
 
     render() {
-        let AnimatePath = Animated.createAnimatedComponent(Path);
+        let AnimatePath = Animatable.createAnimatableComponent(Path);
         return (
             <View>
                 <View style={styles.top}>
@@ -180,19 +165,101 @@ class Overview extends React.Component {
                 <View>
                     <ImageBackground source={require('../images/Overview.jpg')} style={[styles.bottom,{height:scaleSizeH(422),width:scaleSizeW(750),position:'relative'}]}>
                         <Text style={{position: 'absolute', top: scaleSizeH(160), left: scaleSizeH(200), color: '#007aff', fontSize: setSpText(26)}}>{this.state.data.monitorActivePower}kW</Text>
-                        <Text style={{position: 'absolute', top: scaleSizeH(160), left: scaleSizeH(400), color: '#007aff', fontSize: setSpText(26)}}>{this.state.data.monitorActivePower}kW</Text>
-                        <Text style={{position: 'absolute', top: scaleSizeH(360), left: scaleSizeH(400), color: '#007aff', fontSize: setSpText(26)}}>{this.state.data.monitorActivePower}kW</Text>
-                        <Svg height="200" width="400" viewBox="0 0 100 100">
-                            <G fill="none">
-                                <AnimatePath
-                                    d="M5 10 l100 0"
-                                    stroke="#0078FF"
-                                    strokeWidth="3"
-                                    strokeDasharray="5,10"
-                                    strokeDashoffset={this.state.strokeDashOffset}
-                                />
-                            </G>
-                        </Svg>
+                        <Text style={{position: 'absolute', top: scaleSizeH(160), left: scaleSizeH(420), color: '#007aff', fontSize: setSpText(26)}}>{this.state.data.companyActivePower}kW</Text>
+                        <Text style={{position: 'absolute', top: scaleSizeH(340), left: scaleSizeH(420), color: '#007aff', fontSize: setSpText(26)}}>{this.state.data.esActivePower}kW</Text>
+                        <View style={{position:'absolute',top:scaleSizeH(180),left: scaleSizeH(180),alignItems:'center'}}>
+                            <Svg height="20" width="100">
+                                <G fill="none">
+                                    <AnimatePath
+                                        d="M-200 10 l680 0"
+                                        animation={{ from: {
+                                                translateX: 0,
+                                            },
+                                            to: {
+                                                translateX: this.state.data.monitorActivePower>0?180:0,
+                                            },}}
+                                        stroke="#0078FF"
+                                        duration='6000'
+                                        strokeWidth="1"
+                                        strokeDasharray="5,5"
+                                        useNativeDriver
+                                        easing="linear"
+                                        iterationCount='infinite'
+                                        // strokeDashoffset={this.state.strokeDashOffset}
+                                    />
+                                </G>
+                            </Svg>
+                        </View>
+                        <View style={{position:'absolute',top:scaleSizeH(180),left: scaleSizeH(380),alignItems:'center'}}>
+                            <Svg height="20" width="90">
+                                <G fill="none">
+                                    <AnimatePath
+                                        d="M-200 10 l680 0"
+                                        animation={{ from: {
+                                                translateX: 0,
+                                            },
+                                            to: {
+                                                translateX: this.state.data.companyActivePower>0?180:0,
+                                            },}}
+                                        stroke="#0078FF"
+                                        duration='6000'
+                                        strokeWidth="1"
+                                        strokeDasharray="5,5"
+                                        useNativeDriver
+                                        easing="linear"
+                                        iterationCount='infinite'
+                                        // strokeDashoffset={this.state.strokeDashOffset}
+                                    />
+                                </G>
+                            </Svg>
+                        </View>
+                        <View style={{position:'absolute',top:scaleSizeH(200),left: scaleSizeH(360)}}>
+                            <Svg height="90" width="20">
+                                <G fill="none">
+                                    <AnimatePath
+                                        d="M10 -200 l0 800"
+                                        animation={{ from: {
+                                                translateY: 0,
+                                            },
+                                            to: {
+                                                translateY:this.state.data.esActivePower>=0?(this.state.data.esActivePower>0?180:0):-180}}}
+
+                                        stroke="#0078FF"
+                                        duration="6000"
+                                        strokeWidth="1"
+                                        strokeDasharray="5,5"
+                                        useNativeDriver
+                                        easing="linear"
+                                        iterationCount='infinite'
+                                        // strokeDashoffset={this.state.strokeDashOffset}
+                                    />
+                                </G>
+                            </Svg>
+                        </View>
+                        <View style={{position:'absolute',top:scaleSizeH(360),left: scaleSizeH(380),alignItems:'center'}}>
+                            <Svg height="20" width="90">
+                                <G fill="none">
+                                    <AnimatePath
+                                        d="M-200 10 l680 0"
+                                        animation={{ from: {
+                                                translateX: 0,
+                                            },
+                                            to: {
+                                                translateX:this.state.data.esActivePower>=0?(this.state.data.esActivePower>0?180:0):-180
+                                            },}}
+                                        stroke="#0078FF"
+                                        duration='6000'
+                                        strokeWidth="1"
+                                        strokeDasharray="5,5"
+                                        useNativeDriver
+                                        easing="linear"
+                                        iterationCount='infinite'
+                                        // strokeDashoffset={this.state.strokeDashOffset}
+                                    />
+                                </G>
+                            </Svg>
+                        </View>
+
                         {/*<Text class="xian1"><i class="moveRight"></i></Text>*/}
                     </ImageBackground>
                 </View>

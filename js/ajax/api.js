@@ -46,5 +46,19 @@ async function getIndex(params) {
             }).then(res => res.data)
     })
 };
+//实时监控
+async function getRealtimeMonitor (params) {
+    return await AsyncStorage.getItem('accessKey').then((result) => {
+        return axios.post(`${base}/newapp/realtimeMonitor`, (params),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                    'Postman-Token': '6d36b542-39b9-1a90-a97d-4e78f3e39e91',
+                    'Authorization': 'Bearer ' + result.replace("\"", "").replace("\"", ""),
+                }
+            }).then(res => res.data)
+    })
+};
 
-export {getCompany,getIndex}
+export {getCompany,getIndex,getRealtimeMonitor}

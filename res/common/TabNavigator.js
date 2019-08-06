@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Image,Button} from 'react-native';
 import Overview from './Overview';
+import Monitor from './Monitor';
 // import NavigationBar from './NavigationBar'
 // import Ionicons from 'react-native-vector-icons/Ionicons'
 import {newCompany} from '../../js/redux/action'
@@ -9,15 +10,6 @@ import selectCompany from './selectCompany'
 import {connect} from 'react-redux'
 import { createAppContainer,createBottomTabNavigator,createStackNavigator} from 'react-navigation';
 
-class Monitor extends React.Component{
-    render(){
-        return (
-            <View>
-                <Text>Home</Text>
-            </View>
-        )
-    }
-}
 class EnergyEfficiency extends React.Component{
     render(){
         return (
@@ -45,29 +37,11 @@ const OverviewStack = createStackNavigator(
     {
         Overview: Overview,
         }
-
-        // Monitor: {
-        //     screen: Monitor
-        // },
-        // EnergyEfficiency: {
-        //     screen: EnergyEfficiency
-        // },
-        // My: {
-        //     screen: My
-        // },
-    // },
-    // {
-    //     initialRouteName: 'Overview',
-    //     defaultNavigationOptions: {
-    //         headerStyle: {
-    //             backgroundColor: '#f4511e',
-    //         },
-    //         headerTintColor: '#fff',
-    //         headerTitleStyle: {
-    //             fontWeight: 'bold',
-    //         },
-    //     },
-    // }
+);
+const MonitorStack = createStackNavigator(
+    {
+        Monitor: Monitor,
+    }
 );
 //底部导航
 const BottomNavigator = createBottomTabNavigator(
@@ -87,7 +61,7 @@ const BottomNavigator = createBottomTabNavigator(
             }
         },
         Monitor: {
-            screen: Monitor,
+            screen:  MonitorStack,
             navigationOptions: {
                 title: "监控",
                 tabBarIcon:({ focused, horizontal, tintColor })=>{
@@ -177,7 +151,7 @@ const RootStack = createStackNavigator(
         // },
     },
     {
-        initialRouteName: 'Login',
+        initialRouteName: 'BottomNavigator',
         defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#f4511e',
